@@ -1,0 +1,26 @@
+pipeline{
+  agent any
+  stages {
+    stage('git scm update'){
+      steps{
+        git url: 'https://github.com/DevOpsNavigator/cicdtest.git', branch: 'main'
+      }
+    }
+    stage('docker build and push'){
+      steps{
+        sh '''
+        docker build -t walloonam/cicdtest:gold
+        docker push walloonam/cicdtest:gold
+        '''
+      }
+    }
+    stage('deploy kubernetes''){
+      steps{
+        sh '''
+        kubectl create deploy pipline_web --image=walloonam/cicdtest:gold
+        kubectl expose deploy pipline_web --type=LoadBalancer --port=80 --target-port=80 --name=pipline_web
+        '''
+      }
+    }  
+  }
+}
