@@ -9,16 +9,16 @@ pipeline{
     stage('docker build and push'){
       steps{
         sh '''
-        docker build -t walloonam/cicdtest:gold
-        docker push walloonam/cicdtest:gold
+        sudo docker build -t walloonam/cicdtest:gold .
+        sudo docker push walloonam/cicdtest:gold
         '''
       }
     }
-    stage('deploy kubernetes''){
+    stage('deploy kubernetes'){
       steps{
         sh '''
-        ansible master -m command -a 'kubectl create deploy pipline_web --image=walloonam/cicdtest:gold'
-        ansible master -m command -a 'kubectl expose deploy pipline_web --type=LoadBalancer --port=80 --target-port=80 --name=pipline_web'
+        ansible master -m command -a 'sudo kubectl create deploy piplineweb --image=walloonam/cicdtest:gold'
+        ansible master -m command -a 'sudo kubectl expose deploy piplineweb --type=LoadBalancer --port=80 --target-port=80 --name=piplineweb'
         '''
       }
     }  
