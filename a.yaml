@@ -16,6 +16,7 @@ spec:
       containers:
       - name: jenkins-container
         image: walloonam/cicdtest:green
+        imagePullPolicy: Always
         resources:
           requests:
             cpu: "250m"
