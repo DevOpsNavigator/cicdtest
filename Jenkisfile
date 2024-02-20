@@ -17,8 +17,8 @@ pipeline{
     stage('deploy kubernetes''){
       steps{
         sh '''
-        kubectl create deploy pipline_web --image=walloonam/cicdtest:gold
-        kubectl expose deploy pipline_web --type=LoadBalancer --port=80 --target-port=80 --name=pipline_web
+        ansible master -m command -a 'kubectl create deploy pipline_web --image=walloonam/cicdtest:gold'
+        ansible master -m command -a 'kubectl expose deploy pipline_web --type=LoadBalancer --port=80 --target-port=80 --name=pipline_web'
         '''
       }
     }  
